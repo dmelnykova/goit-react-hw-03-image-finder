@@ -1,17 +1,11 @@
-import { Vortex } from 'react-loader-spinner';
-export const Loader = () => {
-  return (
-    <div className='Loader'>
-    <Vortex
-    className = "loaders"
-      visible={true}
-      height="80"
-      width="80"
-      ariaLabel="vortex-loading"
-      wrapperStyle={{}}
-      wrapperClass="vortex-wrapper"
-      colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple']}
-    />
-    </div>
-  );
-};
+// Loader.js
+
+import React from 'react';
+import LoaderSpinner from 'react-loader-spinner';
+
+export const Loader = () => (
+  <div className="loader">
+    <LoaderSpinner type="ThreeDots" color="#00BFFF" height={80} width={80} />
+  </div>
+);
+

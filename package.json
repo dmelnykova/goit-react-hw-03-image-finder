@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "api": "^6.1.1",
     "axios": "^1.6.2",
+    "formik": "^2.4.5",
     "modern-normalize": "^2.0.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
@@ -43,5 +44,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "webpack": "^5.89.0"
   }
 }

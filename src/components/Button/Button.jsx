@@ -1,3 +1,8 @@
-export const Button = ({ onClick }) => {
-  return <button className="Button" onClick={onClick}>Load more image</button>;
+import React from 'react';
+import { Btn } from './Button.styled';
+
+const Button = ({ onLoadMore }) => {
+  return <Btn onClick={onLoadMore}>Load more</Btn>;
 };
+
+export default Button;

@@ -1,29 +1,35 @@
 import React from 'react';
-import { Formik, Form, Field } from 'formik';
+import { Formik } from 'formik';
+import { Form, Field, Button, ErrorMessage } from './Searchbar.styled';
+import * as Yup from 'yup';
+import { CiSearch } from 'react-icons/ci';
 
-export const Searchbar = ({ onSubmit }) => {
+const SearchBar = ({ onSubmitData }) => {
+  const validation = Yup.object().shape({
+    target: Yup.string().min(2, 'Too short!').required('Required!'),
+  });
   return (
-    <div>
-      <Formik
-        initialValues={{
-          query: '',
-        }}
-        onSubmit={values => {
-          onSubmit(values);
-        }}
-      >
-        <Form className='SearchForm'>
-          <div>
-            <Field
-            className = "SearchForm-input"
-              type="text"
-              name="query"
-              placeholder="Search image and photo"
-            />
-            <button className='SearchForm-button' type="submit">Search</button>
-          </div>
-        </Form>
-      </Formik>
-    </div>
+    <Formik
+      initialValues={{
+        target: '',
+      }}
+      onSubmit={({ target }, actions) => {
+        onSubmitData(target);
+        actions.resetForm();
+      }}
+      validationSchema={validation}
+      validateOnBlur={false}
+    >
+      <Form>
+        <Field name="target" placeholder="Forest" />
+        <ErrorMessage name="target" component="span" />
+
+        <Button type="submit">
+          <CiSearch />
+        </Button>
+      </Form>
+    </Formik>
   );
 };
+
+export default SearchBar;

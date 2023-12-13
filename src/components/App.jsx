@@ -1,86 +1,93 @@
-import { Searchbar } from './Searchbar/Searchbar';
-import { ImageGallery } from './ImageGallery/ImageGallery';
-import { Component } from 'react';
-import { fetchImage } from './api';
-import { Button } from './Button/Button';
-import { Loader } from './Loader/Loader';
-import { Toaster } from 'react-hot-toast';
+import Button from './Button/Button';
+import ImageGallery from './ImageGallery/ImageGallery';
+import SearchBar from './Searchbar/Searchbar';
+import { ColorRing } from 'react-loader-spinner';
+import toast, { Toaster } from 'react-hot-toast';
+
+import React, { Component } from 'react';
+import { getImages } from './ api';
 
 export class App extends Component {
   state = {
-    images: [],
-    query: '',
+    target: '',
+    data: [],
+    totalPages: 0,
     page: 1,
     isLoading: false,
-    showBtn: null,
   };
 
-  async componentDidUpdate(prevProps, prevState) {
-    
-    const { query, page } = this.state;
-
-    if (
-      prevState.page !== this.state.page ||
-      prevState.query !== this.state.query
-    ) {
-    try {
-      this.setState({ 
-        isLoading: true, 
-        error: null 
-      });
-  
-      const initialFetch = await fetchImage(query, page);
-  
-      this.setState(prevState => ({
-        images: [...prevState.images, ...initialFetch.hits],
-        showBtn: page < Math.ceil(initialFetch.totalHits /12),
-
-      }));
-    } catch (error) {
-
-      this.setState({
-        error: "Oops.",
-      });
-
-    } finally {
-
-      this.setState({ isLoading: false });
-    }
-  }
-  };
-
-  handleSubmit = newValue => {
-    console.log(newValue);
-    return this.setState({
-      query: newValue.query,
+  onSubmitData = async newTarget => {
+    this.setState({
+      target: newTarget,
       page: 1,
-      images: [],
+      data: [],
     });
   };
-
-  handleLoadMore = () => {
+  onLoadMore = () => {
     this.setState(prevState => {
       return {
         page: prevState.page + 1,
       };
     });
   };
-
+  async componentDidUpdate(prevProps, prevState) {
+    if (
+      this.state.page !== prevState.page ||
+      this.state.target !== prevState.target
+    ) {
+      try {
+        this.setState({
+          isLoading: true,
+        });
+        const res = await getImages(this.state.target, this.state.page);
+        const { hits, totalHits } = res;
+        this.setState(prevState => {
+          return {
+            data: [...prevState.data, ...hits],
+            totalPages: Math.ceil(totalHits / 12),
+          };
+        });
+      } catch {
+        toast.error('Error! Try again!');
+      } finally {
+        this.setState({
+          isLoading: false,
+        });
+      }
+    }
+  }
+  toggleLoader = () => {
+    this.setState(prevState => {
+      return {
+        isLoading: !prevState.isLoading,
+      };
+    });
+  };
   render() {
-    const { images, isLoading, showBtn } = this.state;
-    const galleryImage = images.length !== 0;
-    
+    const { target, data, totalPages, page, isLoading } = this.state;
     return (
-      <div className='App'>
-        <Searchbar onSubmit={this.handleSubmit} />
-
-        {galleryImage && <ImageGallery images={images} />}
-        {showBtn && ( <Button onClick={this.handleLoadMore} />
+      <>
+        <SearchBar onSubmitData={this.onSubmitData} />
+        {isLoading ? (
+          <ColorRing
+            visible={true}
+            height="80"
+            width="80"
+            ariaLabel="blocks-loading"
+            wrapperStyle={{
+              display: 'block',
+              margin: '0 auto',
+            }}
+            colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+          />
+        ) : (
+          <ImageGallery target={target} data={data} />
         )}
-        
-        {isLoading && <Loader />}
-        <Toaster />
-      </div>
+        {totalPages > 1 && page < totalPages && (
+          <Button onLoadMore={this.onLoadMore} />
+        )}
+        <Toaster position="top-right" />;
+      </>
     );
   }
 }

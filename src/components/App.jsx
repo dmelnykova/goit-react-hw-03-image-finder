@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { getImages } from './ api'; 
+import { getImages } from './api';
 import SearchBar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
@@ -45,7 +45,7 @@ export class App extends Component {
   }
 
   async fetchImages() {
-    const { query, page } = this.state;
+    const { query, page, isSearchPerformed } = this.state;
 
     try {
       const res = await getImages(query, page);
@@ -58,8 +58,12 @@ export class App extends Component {
     } catch (error) {
       console.error('Error fetching images:', error);
       toast.error('Ooops... Try again!');
-    }
-    finally {
+    } finally {
+      if (isSearchPerformed) {
+        this.setState({
+          isSearchPerformed: false,
+        });
+      }
     }
   }
 
@@ -68,7 +72,7 @@ export class App extends Component {
       query: newQuery,
       page: 1,
       images: [],
-      isSearchPerformed: true, 
+      isSearchPerformed: true,
     });
   };
 
@@ -93,4 +97,3 @@ export class App extends Component {
     );
   }
 }
-

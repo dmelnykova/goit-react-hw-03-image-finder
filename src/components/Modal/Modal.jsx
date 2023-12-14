@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import ReactModal from 'react-modal';
 
 const customStyles = {

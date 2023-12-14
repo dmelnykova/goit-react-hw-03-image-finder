@@ -1,11 +1,11 @@
-import React from 'react';
+// import React from 'react';
 import { Gallery } from './ImageGallery.styled';
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 
-const ImageGallery = ({ images }) => {
+const ImageGallery = ({ data }) => {
   return (
     <Gallery>
-      {images && images.map(item => {
+      {data && data.map(item => {
         const { id, webformatURL, largeImageURL, tags } = item;
         return (
           <ImageGalleryItem

@@ -14,6 +14,7 @@ export class App extends Component {
     page: 1,
     isLoading: false,
     showBtn: null,
+    totalPages: 0,
   };
 
   async componentDidMount() {
@@ -49,6 +50,8 @@ export class App extends Component {
       const res = await getImages(query, page);
       const { hits, totalHits } = res;
 
+      console.log('Fetched images:', hits); 
+
       this.setState((prevState) => ({
         images: [...prevState.images, ...hits],
         totalPages: Math.ceil(totalHits / 12),
@@ -56,10 +59,12 @@ export class App extends Component {
     } catch (error) {
       console.error('Error fetching images:', error);
       toast.error('Ooops... Try again!');
-    } finally {
-      this.setState({
-        isLoading: false,
-      });
+    }
+    finally {
+      console.log('Fetch complete');
+      // this.setState({
+      //   isLoading: false,
+      // });
     }
   }
 

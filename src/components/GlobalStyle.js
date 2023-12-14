@@ -2,20 +2,19 @@ import { createGlobalStyle } from 'styled-components';
 import 'modern-normalize';
 
 export const GlobalStyle = createGlobalStyle`
-    body {
+  body {
    margin: 0;
-   padding: 30px;
   }
 
-    ul {
+  ul {
   list-style: none;
   padding: 0;
   }
 
-    p {
+  p {
   margin: 0;
 }
-    img {
+  img {
   width: 100%;
 }
 `;

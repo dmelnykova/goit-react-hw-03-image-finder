@@ -1,8 +1,10 @@
-// import React from 'react';
 import { Gallery } from './ImageGallery.styled';
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 
 const ImageGallery = ({ data }) => {
+  
+  // const images = data || [];
+
   return (
     <Gallery>
       {data && data.map(item => {

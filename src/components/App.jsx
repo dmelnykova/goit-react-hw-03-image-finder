@@ -50,8 +50,6 @@ export class App extends Component {
       const res = await getImages(query, page);
       const { hits, totalHits } = res;
 
-      console.log('Fetched images:', hits); 
-
       this.setState((prevState) => ({
         images: [...prevState.images, ...hits],
         totalPages: Math.ceil(totalHits / 12),
@@ -61,10 +59,6 @@ export class App extends Component {
       toast.error('Ooops... Try again!');
     }
     finally {
-      console.log('Fetch complete');
-      // this.setState({
-      //   isLoading: false,
-      // });
     }
   }
 

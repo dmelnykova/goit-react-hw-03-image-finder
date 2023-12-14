@@ -15,6 +15,7 @@ export class App extends Component {
     isLoading: false,
     showBtn: null,
     totalPages: 0,
+    isSearchPerformed: false,
   };
 
   async componentDidMount() {
@@ -67,6 +68,7 @@ export class App extends Component {
       query: newQuery,
       page: 1,
       images: [],
+      isSearchPerformed: true, 
     });
   };
 
@@ -77,7 +79,7 @@ export class App extends Component {
   };
 
   render() {
-    const { isLoading, images, totalPages, page } = this.state;
+    const { isLoading, images, totalPages, page, isSearchPerformed } = this.state;
 
     return (
       <div>

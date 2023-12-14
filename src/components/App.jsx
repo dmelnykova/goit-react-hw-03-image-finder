@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { getImages } from './api';
+import { getImages } from './api'; 
 import SearchBar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
@@ -23,9 +23,9 @@ export class App extends Component {
   }
 
   async componentDidUpdate(prevProps, prevState) {
-    const { page, query } = this.state;
+    const { page, query, isSearchPerformed } = this.state;
 
-    if (prevState.page !== page || prevState.query !== query) {
+    if ((prevState.page !== page || prevState.query !== query) && isSearchPerformed) {
       try {
         this.setState({
           isLoading: true,
@@ -45,7 +45,7 @@ export class App extends Component {
   }
 
   async fetchImages() {
-    const { query, page, isSearchPerformed } = this.state;
+    const { query, page } = this.state;
 
     try {
       const res = await getImages(query, page);
@@ -58,12 +58,6 @@ export class App extends Component {
     } catch (error) {
       console.error('Error fetching images:', error);
       toast.error('Ooops... Try again!');
-    } finally {
-      if (isSearchPerformed) {
-        this.setState({
-          isSearchPerformed: false,
-        });
-      }
     }
   }
 
@@ -72,7 +66,7 @@ export class App extends Component {
       query: newQuery,
       page: 1,
       images: [],
-      isSearchPerformed: true,
+      isSearchPerformed: true, 
     });
   };
 
@@ -89,11 +83,12 @@ export class App extends Component {
       <div>
         <SearchBar onSubmitData={this.onSubmitData} />
         {isLoading && <Loader />}
-        {images.length > 0 && <ImageGallery data={images} />}
-        {totalPages > page && <Button onLoadMore={this.onLoadMore} />}
+        <ImageGallery data={images} isSearchPerformed={isSearchPerformed} />
+        {totalPages > page && <Button onLoadMore={this.onLoadMore} isSearchPerformed={isSearchPerformed} />}
         <GlobalStyle />
         <Toaster />
       </div>
     );
   }
 }
+

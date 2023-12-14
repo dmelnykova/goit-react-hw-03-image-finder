@@ -1,7 +1,11 @@
 import { Gallery } from './ImageGallery.styled';
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 
-const ImageGallery = ({ data }) => {
+
+const ImageGallery = ({ data, isSearchPerformed }) => {
+  if (!isSearchPerformed) {
+    return null;
+  }
   
   return (
     <Gallery>

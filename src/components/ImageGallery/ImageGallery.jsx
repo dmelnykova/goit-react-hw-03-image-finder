@@ -2,16 +2,17 @@ import React from 'react';
 import { Gallery } from './ImageGallery.styled';
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 
-const ImageGallery = ({ data }) => {
+const ImageGallery = ({ images }) => {
   return (
     <Gallery>
-      {data.map(item => {
+      {images && images.map(item => {
+        const { id, webformatURL, largeImageURL, tags } = item;
         return (
           <ImageGalleryItem
-            key={item.id}
-            photo={item.previewURL}
-            alt={item.tags}
-            bigImg={item.largeImageURL}
+            key={id}
+            image={webformatURL}
+            largeImage={largeImageURL}
+            tags={tags}
           />
         );
       })}

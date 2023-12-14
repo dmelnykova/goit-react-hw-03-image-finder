@@ -6,26 +6,26 @@ import { CiSearch } from 'react-icons/ci';
 
 const SearchBar = ({ onSubmitData }) => {
   const validation = Yup.object().shape({
-    target: Yup.string().min(2, 'Too short!').required('Required!'),
+    query: Yup.string().min(2, 'Too short!').required('Required!'),
   });
   return (
     <Formik
       initialValues={{
-        target: '',
+        query: '',
       }}
-      onSubmit={({ target }, actions) => {
-        onSubmitData(target);
+      onSubmit={({ query }, actions) => {
+        onSubmitData(query);
         actions.resetForm();
       }}
       validationSchema={validation}
       validateOnBlur={false}
     >
       <Form>
-        <Field name="target" placeholder="Forest" />
-        <ErrorMessage name="target" component="span" />
+        <Field name="query" placeholder="Search image and photo" />
+        <ErrorMessage name="query" component="span" />
 
         <Button type="submit">
-          <CiSearch />
+          <CiSearch/>
         </Button>
       </Form>
     </Formik>
@@ -33,3 +33,4 @@ const SearchBar = ({ onSubmitData }) => {
 };
 
 export default SearchBar;
+

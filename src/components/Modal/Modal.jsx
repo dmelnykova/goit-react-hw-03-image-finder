@@ -1,29 +1,37 @@
-// Modal.js
+import React from 'react';
+import ReactModal from 'react-modal';
 
-import React, { useEffect } from 'react';
+const customStyles = {
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    border: '0',
+    padding: '0',
+    width: '70%',
+    height: '90%',
+    overflow: 'hidden',
+  },
+};
 
-const Modal = ({ image, onClose }) => {
-  useEffect(() => {
-    const handleCloseOnEsc = (e) => {
-      if (e.keyCode === 27) {
-        onClose();
-      }
-    };
-
-    window.addEventListener('keydown', handleCloseOnEsc);
-
-    return () => {
-      window.removeEventListener('keydown', handleCloseOnEsc);
-    };
-  }, [onClose]);
-
+ReactModal.setAppElement('#root');
+const ModalComponent = ({ isOpen, isClose, url, tags }) => {
   return (
-    <div className="overlay" onClick={onClose}>
-      <div className="modal">
-        <img src={image} alt="" />
-      </div>
-    </div>
+    <ReactModal
+      isOpen={isOpen}
+      onRequestClose={isClose}
+      style={customStyles}
+      contentLabel="Large image"
+    >
+      <img src={url} alt={tags} height="100%" />
+    </ReactModal>
   );
 };
 
-export default Modal;
+export default ModalComponent;

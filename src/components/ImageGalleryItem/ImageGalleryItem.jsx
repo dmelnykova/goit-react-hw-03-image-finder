@@ -1,47 +1,38 @@
 import React, { Component } from 'react';
-import Modal from 'react-modal';
-import { Image, Item } from './ImageGalleryItem.styled';
+import { Item } from './ImageGalleryItem.styled';
+import Modal from 'components/Modal/Modal';
 
-const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-  },
-};
-
-Modal.setAppElement('#root');
-export default class ImageGalleryItem extends Component {
+export class ImageGalleryItem extends Component {
   state = {
     isModalOpen: false,
   };
 
-  toggleModal = () => {
-    this.setState(prevState => {
-      return {
-        isModalOpen: !prevState.isModalOpen,
-      };
-    });
+  modalToggle = () => {
+    this.setState(prevState => ({
+      isModalOpen: !prevState.isModalOpen,
+    }));
   };
 
   render() {
-    const { photo, alt, bigImg } = this.props;
     const { isModalOpen } = this.state;
+    const { image, tags, largeImage } = this.props;
     return (
       <Item>
-        <Image src={photo} alt={alt} onClick={this.toggleModal} />
+        <img
+          src={image}
+          alt={tags}
+          onClick={this.modalToggle}
+          height="250px"
+        />
         <Modal
           isOpen={isModalOpen}
-          onRequestClose={this.toggleModal}
-          style={customStyles}
-          contentLabel="Gallery item"
-        >
-          <img src={bigImg} alt={alt} />
-        </Modal>
+          isClose={this.modalToggle}
+          url={largeImage}
+          tags={tags}
+        />
       </Item>
     );
   }
 }
+
+export default ImageGalleryItem;

@@ -1,14 +1,12 @@
 import styled from 'styled-components';
 
 export const Item = styled.li`
-  width: 300px;
-  height: 300px;
-  cursor: pointer;
-`;
-
-export const Image = styled.img`
-  display: block;
-  width: 100%;
-  height: 100%;
+  width: 350px;
   object-fit: cover;
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    transform: scale(1.03);
+    cursor: pointer;
+  }
 `;

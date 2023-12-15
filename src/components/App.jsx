@@ -18,14 +18,10 @@ export class App extends Component {
     isSearchPerformed: false,
   };
 
-  async componentDidMount() {
-    await this.fetchImages();
-  }
-
   async componentDidUpdate(prevProps, prevState) {
     const { page, query, isSearchPerformed } = this.state;
 
-    if ((prevState.page !== page || prevState.query !== query) && isSearchPerformed) {
+    if ((prevState.page !== page || prevState.query !== query)) {
       try {
         this.setState({
           isLoading: true,
@@ -48,8 +44,7 @@ export class App extends Component {
     const { query, page } = this.state;
 
     try {
-      const res = await getImages(query, page);
-      const { hits, totalHits } = res;
+      const { hits, totalHits } = await getImages(query, page);
 
       this.setState((prevState) => ({
         images: [...prevState.images, ...hits],
@@ -66,7 +61,6 @@ export class App extends Component {
       query: newQuery,
       page: 1,
       images: [],
-      isSearchPerformed: true, 
     });
   };
 
@@ -77,14 +71,14 @@ export class App extends Component {
   };
 
   render() {
-    const { isLoading, images, totalPages, page, isSearchPerformed } = this.state;
+    const { isLoading, images, totalPages, page } = this.state;
 
     return (
       <div>
         <SearchBar onSubmitData={this.onSubmitData} />
         {isLoading && <Loader />}
-        <ImageGallery data={images} isSearchPerformed={isSearchPerformed} />
-        {totalPages > page && <Button onLoadMore={this.onLoadMore} isSearchPerformed={isSearchPerformed} />}
+        {images.length > 0 && <ImageGallery data={images} />}
+        {totalPages > page && <Button onLoadMore={this.onLoadMore}/>}
         <GlobalStyle />
         <Toaster />
       </div>

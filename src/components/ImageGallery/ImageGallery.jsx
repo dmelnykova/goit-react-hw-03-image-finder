@@ -3,9 +3,6 @@ import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 
 
 const ImageGallery = ({ data, isSearchPerformed }) => {
-  if (!isSearchPerformed) {
-    return null;
-  }
   
   return (
     <Gallery>

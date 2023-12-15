@@ -13,13 +13,11 @@ export class App extends Component {
     query: '',
     page: 1,
     isLoading: false,
-    showBtn: null,
     totalPages: 0,
-    isSearchPerformed: false,
   };
 
   async componentDidUpdate(prevProps, prevState) {
-    const { page, query, isSearchPerformed } = this.state;
+    const { page, query } = this.state;
 
     if ((prevState.page !== page || prevState.query !== query)) {
       try {
